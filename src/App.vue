@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed} from "vue"
+import {ref, computed, onMounted} from "vue"
 
 import ButtonCounter from './components/ButtonCounter.vue';
 import BlogPost from './components/BlogPost.vue';
@@ -23,6 +23,34 @@ const next = () => {
   fin.value = fin.value + postXpage;
 };
 
+onMounted(async() => {
+  
+  //loading.value=true;
+  try{
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+    posts.value = await res.json();
+  }
+  catch (error){
+    console.log(error)
+  } finally {
+    setTimeout(() =>{
+        loading.value=false;
+      }, 2000);
+  }
+  });
+  
+  
+  /*fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(res => res.json())
+    .then((data) => posts.value=data)
+
+    .catch((e) => console.log(e))
+    .finally(() => {
+      setTimeout(() =>{
+        loading.value=false;
+      }, 2000);
+  }); */
+
 
 const prev = () => {
   inicio.value += -postXpage;
@@ -32,18 +60,7 @@ const prev = () => {
 
 const maxlength = computed(() => posts.value.length);
 
-fetch("https://jsonplaceholder.typicode.com/posts")
-  .then(res => res.json())
-  .then((data) => posts.value=data)
 
-  .catch((e) => console.log(e))
-  .finally(() => {
-    setTimeout(() =>{
-      loading.value=false;
-    }, 2000);
-    
-
-  });
 
 </script>
 
