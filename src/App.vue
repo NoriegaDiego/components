@@ -10,7 +10,7 @@ const posts = ref([]);
 const postXpage = 10;
 const inicio = ref(0);
 const fin = ref(postXpage);
-const loading = ref(false);
+const loading = ref(true);
 
 const favorito = ref("");
 
@@ -25,7 +25,7 @@ const next = () => {
 
 onMounted(async() => {
   
-  loading.value=true;
+  //loading.value=true;
   try{
     const res = await fetch("https://jsonplaceholder.typicode.com/posts")
     posts.value = await res.json();
